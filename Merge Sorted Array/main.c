@@ -63,16 +63,14 @@ int main() {
 
 void merge(int *nums1, int nums1Size, int m, int *nums2, int nums2Size, int n) {
   int i = nums2Size, j = nums1Size, p = 0;
-  while (i > 0) {
-    printInt(nums2[i - 1]);
-    --i;
-  }
+  printArr(nums1, nums1Size);
+  // while (i > 0) {
+  //   printInt(nums2[i - 1]);
+  //   --i;
+  // }
 }
 
-void printInt(int value) {
-  printf("%d", value);
-  printf("\n");
-}
+void printInt(int value) { printf("%d\n", value); }
 
 void printArr(int *arr, int arrSize) {
   for (int i = 0; i < arrSize; ++i) {
