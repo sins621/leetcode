@@ -46,35 +46,69 @@ Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 */
 #include <stdio.h>
 
-void merge(int *nums1, int nums1Size, int m, int *nums2, int nums2Size, int n);
-void printInt(int value);
-void printArr(int *arr, int arrSize);
+void merge(int *nums_1, int nums_1_size, int m, int *nums_2, int nums_2_size,
+           int n);
+void print_int(int value);
+void print_arr(int *arr, int arr_size);
+void shift_right(int *arr, int arr_size, int index);
 
 int main() {
-  int arr1[] = {1, 2, 3, 0, 0, 0};
-  const int arr1Size = 6;
-  const int arr1Max = 3;
+  int arr_1[] = {1, 2, 3, 0, 0, 0};
+  const int arr_1_size = 6;
+  const int arr_1_max = 3;
 
-  int arr2[] = {2, 5, 6};
-  const int arr2Size = 3;
-  const int arr2Max = 3;
-  merge(arr1, arr1Size, arr1Max, arr2, arr2Size, arr2Max);
+  int arr_2[] = {2, 5, 6};
+  const int arr_2_size = 3;
+  const int arr_2_max = 3;
+  merge(arr_1, arr_1_size, arr_1_max, arr_2, arr_2_size, arr_2_max);
+  print_arr(arr_1, arr_1_size);
 }
 
-void merge(int *nums1, int nums1Size, int m, int *nums2, int nums2Size, int n) {
-  int i = nums2Size, j = nums1Size, p = 0;
-  printArr(nums1, nums1Size);
-  // while (i > 0) {
-  //   printInt(nums2[i - 1]);
-  //   --i;
-  // }
+void merge(int *nums_1, int nums_1_size, int m, int *nums_2, int nums_2_size,
+           int n) {
+  int temp = 0;
+
+  if (nums_2_size == 0) {
+    return;
+  }
+
+  if (m == 0) {
+    for (int i = 0; i < nums_2_size; ++i) {
+      nums_1[i] = nums_2[i];
+    }
+    return;
+  }
+
+  for (int o = nums_2_size - 1; o > -1; --o) {
+    for (int i = nums_1_size - 1; i > -1; --i) {
+      if (nums_1[i] != 0) {
+        if (nums_2[o] > nums_1[i]) {
+          shift_right(nums_1, nums_1_size, i + 1);
+          nums_1[i + 1] = nums_2[o];
+          break;
+        }
+      }
+    }
+  }
 }
 
-void printInt(int value) { printf("%d\n", value); }
+void print_int(int value) { printf("%d\n", value); }
 
-void printArr(int *arr, int arrSize) {
-  for (int i = 0; i < arrSize; ++i) {
+void print_arr(int *arr, int arr_size) {
+  for (int i = 0; i < arr_size; ++i) {
     printf("%d", arr[i]);
   }
   printf("\n");
+}
+
+void shift_right(int *arr, int arr_size, int arr_index) {
+  int temp_prev = 0;
+  int temp_next = 0;
+  temp_prev = arr[arr_index];
+  arr[arr_index] = 0;
+  for (int i = arr_index + 1; i < arr_size; i++) {
+    temp_next = arr[i];
+    arr[i] = temp_prev;
+    temp_prev = temp_next;
+  }
 }
