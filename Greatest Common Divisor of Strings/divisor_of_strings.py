@@ -29,21 +29,45 @@ class Solution(object):
         :type str2: str
         :rtype: str
         """
-        str1_divs = []
-        str2_divs = []
+        len1, len2 = len(str1), len(str2)
 
-        str1_divs = [str1[i:] for i in range(0, len(str1) - 1)][::-1]
-        str2_divs = [str2[i:] for i in range(0, len(str2) - 1)][::-1]
+        def isDivisor(l):
+            if len1 % l or len2 % l:
+                return False
+            (
+                f1,
+                f2,
+            ) = (
+                len1 // l,
+                len2 // l,
+            )
+            return str1[:l] * f1 == str1 and str1[:l] * f2 == str2
 
-
-        for div in str1_divs:
-            if div in str2_divs:
-                return div
-
-        for div in str2_divs:
-            if div in str1_divs:
-                return div
+        for l in range(min(len1, len2), 0, -1):
+            if isDivisor(l):
+                return str1[:l]
+        return ""
 
 
 solution = Solution()
-print(solution.gcdOfStrings("ABCABC", "ABC"))
+
+test1 = solution.gcdOfStrings("ABCABC", "ABC")
+
+if test1 == "ABC":
+    print("Passed Case 1")
+else:
+    print(f"Case 1 Failed, output '{test1}', expected 'ABC'")
+
+test2 = solution.gcdOfStrings("ABABAB", "ABAB")
+
+if test2 == "AB":
+    print("Passed Case 2")
+else:
+    print(f"Case 2 Failed, output '{test2}', expected 'AB'")
+
+test3 = solution.gcdOfStrings("LEET", "CODE")
+
+if test3 == "AB":
+    print("Passed Case 3")
+else:
+    print(f"Case 3 Failed, output '{test3}', expected 'Null'")
